@@ -26,3 +26,28 @@ git push -u Mars master //再次发射，目标火星上的master分支
 补充：  
 
 在用 git push -u Ceres master 时也要注意这里master是你要上传的分支名称，如果你当前所位于的分支不叫master
+
+
+
+---------------------------------------
+---------------------------------------
+
+
+一、开发分支（dev）上的代码达到上线的标准后，要合并到 master 分支
+```shell
+git checkout dev
+git pull
+git checkout master
+git merge dev
+git push -u origin master
+```
+
+二、当master代码改动了，需要更新开发分支（dev）上的代码
+
+```shell
+git checkout master 
+git pull 
+git checkout dev
+git merge master 
+git push -u origin dev
+```
