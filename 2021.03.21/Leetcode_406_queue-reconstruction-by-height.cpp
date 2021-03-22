@@ -32,13 +32,16 @@ class Solution{
     public:
         static bool cmp(const vector<int> &a, const vector<int> &b)
         {
-            return (a[0]==b[0] && a[1]<b[1] || a[0]>b[0]);
+            return ((a[0]==b[0] && a[1]<b[1]) || a[0]>b[0]);
         }
         vector<vector<int>> reconstructQueue(vector<vector<int>> & people)
         {
            vector<vector<int>> res;  
            sort(people.begin(),people.end(), cmp);
-           printFun(people);
+           for (const vector<int> & person:people)
+           {
+            res.insert(res.begin()+person[1],person);//注意二维数组的插入方式 等价于 res = list() res.insert(loc,elem)
+            }
            return res;
         }
 };

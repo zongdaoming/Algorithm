@@ -17,7 +17,6 @@ int main(){
       {2017, "Bob"}
    };
    ID_name[2018] = "zongdoaming";
-
    system("pause");
    return 0;
 };

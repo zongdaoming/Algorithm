@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <cstdio>
 #include <numeric>
@@ -7,41 +8,48 @@
 #include <algorithm>
 using namespace std;
 
-// 讲两个值进行交换
-void fun(int *a, int *b) //形参为两个整型的指针变量
+struct ListNode
 {
-   int temp = 0; //定义一个临时变量。良好的习惯是定义一个变量并初始化它；
-   temp = *a; //将*a赋值给temp;
-   *a = *b;   //将*b赋值给*a;
-   *b = temp;  //再将temp赋值给*b;这样就完成了a、b数值的交换
-};
-
-
-void fun_reference(int &a, int &b) //形参为两个整型的引用
-{
-    int temp = 0;
-    temp =a;
-    a = b;
-    b = temp;
+    double value;
+    ListNode *next;
+    // Constructor
+    ListNode(double value1, ListNode* next1=nullptr){
+        value =value1;
+        next = next1;
+    }
 };
 
 
 int main(int argc, char const *argv[])
-{    
-    int x = 10, y = 20;
-    int a = 18, b = 29;
+{
     
-    fun(&x,&y);
-    cout<< " x is "<<x <<" y is "<<y <<endl;
-    //  x is 20 y is 10
-
-    fun_reference(a,b);
-    cout<< " a is "<<a<<" b is "<<b<<endl;
+    double number; //used to read the file
+    ListNode *numberList = nullptr;// List of numbers
+    // Open the file
+    ifstream numberFile("numberFile.dat");
+    if(!numberFile)
+    {
+        cout<<"Error in opening the file of the numbers";
+        exit(1);
+    }
+    // Read the file into a linked list
+    cout<<"The contents of the file are: "<<endl;
+    while(numberFile>>number)
+    {
+        cout<<number<<" ";
+        // Create a node to hold this number
+        // 只有尾结点的后继指针为nullptr
+        numberList = new ListNode(number, numberList);
+    }
+    // Traverse the list while printing
+    cout<<endl<<"The contents of the list are: "<<endl;
+    
+    ListNode *ptr = numberList;
+    while(ptr!=nullptr)
+    {
+        cout<<ptr->value<<" ";//Process node
+        ptr = ptr->next;
+    }
     system("pause");
-    //  a is 29 b is 18
-    
     return 0;
 }
-
-
-
