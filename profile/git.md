@@ -51,3 +51,17 @@ git checkout dev
 git merge master 
 git push -u origin dev
 ```
+
+
+# 三、git remote 删除添加的远程地址
+```shell
+git remote add origin git@github.com/name/xxx.git
+```
+查看本地添加了那些远程地址
+```cpp
+git remote -v
+```
+删除本地指定的远程地址
+```cpp
+git remote remove origin // 删除即可
+```
