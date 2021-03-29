@@ -18,19 +18,12 @@ typedef struct  BiTNode
     char data;
     struct BiTNode *lchild, *rchild;
 }BiTNode, *BiTree;
+// BiNode表示BiNode类型结构体，BiTree表示指向指向BiNode的指针
 
 
 
 
 
-
-
-
-int main(int argc, char const *argv[])
-{
-    
-    return 0;
-}
 
 
 
