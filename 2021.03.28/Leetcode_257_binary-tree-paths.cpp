@@ -19,34 +19,94 @@ struct TreeNode {
 };
 
 // 方法一：深度优先搜索
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
 class Solution {
-    public:
-    void construct_paths(TreeNode * root, string path, vector<string> &paths)
+public:
+    void dfs(TreeNode * root, string path, vector<string> &paths)
     {
         if(root!=nullptr)
         {
             path += to_string(root->val);
-            if(root->left == nullptr && root->right == nullptr)
+            if(root->left==nullptr && root->right == nullptr)
             {
                 // 当前节点是叶子节点
+                paths.push_back(path); 
+            }
+            else 
+            {
+                path += '->'; //当前节点不是叶子节点，继续遍历递归
+                dfs(root->left, path, paths);
+                dfs(root->right, path, paths);
+            }
+        }   
+    }
+    
+    vector<string> binaryTreePaths(TreeNode* root) {
+        vector<string> paths;
+        dfs(root, "", paths);
+        return paths;
+
+    }
+};
+
+// 方法2：广度优先搜索
+class Solution{
+    public:
+    vector<string> binaryTreePaths(TreeNode* root) {
+        vector<string> paths;
+        if(root==nullptr)
+        {
+            return;
+        }
+        queue<TreeNode*> node_queue;
+    
+        queue<string> path_queue;
+    
+        node_queue.push(root);
+        path_queue.push(to_string(root->val));
+        while(!node_queue.empty())
+        {
+            TreeNode* node = node_queue.front();
+            string path = path_queue.front();
+            node_queue.pop();
+            path_queue.pop();
+
+            if(node->left==nullptr && node->right==nullptr)
+            {
                 paths.push_back(path);
             }
             else
             {
-                path += '->'; //当前节点不是叶子节点，继续递归遍历
-                construct_paths(root->left, path, paths);
-                // interval: 需要先执行完上一个语句才执行下一个语句
-                construct_paths(root->right, path, paths);
+                if(node->left!=nullptr)
+                {
+                    node_queue.push(node->left);
+                    path_queue.push(path+"->"+ to_string(node->left->val));
+                }
+                if(node->right!=nullptr)
+                {
+                    node_queue.push(node->right);
+                    path_queue.push(path+"->"+to_string(node->right->val));
+                }
             }
+            
         }
     }
-    vector<string> binaryTreePaths(TreeNode* root)
-    {
-        vector<string> paths;
-        construct_paths(root,"",paths);
-        return paths;
-    }
 };
+
+
+
+
+
 
 void printVec(vector<string> &paths)
 {
@@ -57,15 +117,6 @@ void printVec(vector<string> &paths)
     }
     cout<<"]";
 }
-
-
-
-
-
-
-
-
-
 
 int main(int argc, char const *argv[])
 {   
