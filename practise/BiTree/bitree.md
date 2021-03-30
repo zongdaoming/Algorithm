@@ -54,5 +54,29 @@ void postorderTraversal(Node *nd)
 }
 ```
 
+# 使用队列实现层次遍历
+```cpp
+void levelTravesal(Node *root)
+{
+    if(root == NULL) return; //如果root为空，直接return掉
+    queue<Node*> childs; //创建节点队列
+    childs.push(root); // 先把root节点加入套餐
+    // childs.size()! = 0
+    while(!childs.empty())
+    {
+        Node *current = childs.front(); //取出队列前端的节点
+        printf("%d",current->data); //提取数据
+        if(current->left!=NULL) childs.push(current->left); //如果不是空的，就加入套餐
+        if(current->right!=NULL) childs.push(current->right); //同上
+        childs.pop();//去掉队列前端的节点
+    }
+}
+```
+
+
+  
+
+
+
 
 
