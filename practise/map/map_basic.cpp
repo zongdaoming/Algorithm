@@ -6,9 +6,6 @@
 #include <map>
 #include <algorithm>
 using namespace std;
-
-
-
 int main(){
    map<int, string> ID_name;
    ID_name = {
