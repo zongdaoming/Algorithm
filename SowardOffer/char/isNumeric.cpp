@@ -14,14 +14,22 @@ using namespace std;
 
 class Solution {
 public:
-    /**
-     * 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
-     *
-     * 
-     * @param str string字符串 
-     * @return bool布尔型
-     */
-    bool isNumeric(string str) {
-        // write code here
+    bool IsContinuous( vector<int> numbers ) {
+        
+        if (numbers.empty()) return false;
+        sort(numbers.begin(), numbers.end());
+        int i = 0, sz = numbers.size();
+        
+        for (int j=0; j < sz; ++j) {
+            
+            if ( numbers[j] == 0 ) {
+                ++i;       // i 记录最小值的下标
+                continue;
+            }
+            
+            if ( j+1 < sz && numbers[j] == numbers[j+1] ) return false;
+        
+        }  
+        return numbers.back() - numbers[i] < 5;
     }
 };
