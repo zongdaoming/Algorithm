@@ -24,3 +24,57 @@
 >  2. 遍历单链表当前元素，然后再set中检查，如果是重复值，就删除，pre->next = cur->next
 >  3. 否则，不是重复值，pre = pre->next, cur = cur->next
 >  4. 直到单链表遍历完
+
+```cpp
+class Solution
+{
+    public:
+    class Solution {
+public:
+    ListNode* deleteDuplication(ListNode* pHead)
+    {
+        if(!pHead) return pHead;
+        set<int> st;
+        ListNode *pre = pHead;
+        ListNode *cur = pHead->next;
+        while(cur!=nullptr)
+        {
+            if(pre->val == cur->val)
+            {
+                st.insert(pre->val);
+            }
+            pre = pre->next;
+            cur = cur->next;
+        }
+        ListNode *vhead = new ListNode(-1);
+        vhead->next = pHead;
+        // 
+        pre = vhead;
+        // 
+        cur = pHead；
+        while(cur!=nullptr)
+        {
+            if(st.count(cur->val))
+            {
+                cur = cur->next;
+                pre->next = cur;
+            }
+            else{
+                pre = pre->next;
+                cur = cur->next;
+            }
+        }
+        return vhead->next;
+    }
+}
+```
+
+
+## 方法二：直接删除法
+根据方法一，可以优化，在遍历单链表的时候，检查当前节点与下一点是否为相同值，如果相同，继续查找祥同值的最大长度，然后指针改变指向。
+```cpp
+
+
+
+
+```
