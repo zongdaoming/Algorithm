@@ -91,6 +91,7 @@ class Solution {
             }
             else if (i>rootIndex)
             {
+                // 这一点非常重要
                 preRight[i-rootIndex-1] = pre[i];
                 inRight[i-rootIndex-1] = in[i];
             }
