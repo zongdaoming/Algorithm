@@ -47,7 +47,7 @@ class SolutionBFS
     TreeNode *Mirror(TreeNode* root)
     {
         if(root==NULL){
-            return;
+            return NULL;
         }
         queue<TreeNode*> Q;
         // 先把根节点加入到队列中
@@ -128,7 +128,7 @@ class inOrderTraversal
 };
 
 
-class inOrderTraversal {
+class Solution {
 public:
     /**
      * 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
@@ -137,14 +137,35 @@ public:
      * @param pRoot TreeNode类 
      * @return TreeNode类
      */
-    TreeNode* Mirror(TreeNode* pRoot) {
+    TreeNode* Mirror(TreeNode* root) {
         // write code here
-
+        if(root==NULL)
+        {
+            return NULL;
+        }
+        stack<TreeNode*> st;
+        TreeNode *node = root;
+        while(node!=NULL || !st.empty())
+        {
+            while(node!=NULL)
+            {
+               st.push(node);
+               node = node->left; 
+            }
+            if(!st.empty())
+            {
+                node = st.top();
+                st.pop();
+                // 子节点交换
+                TreeNode* temp = node->left;
+                node->left = node->right;
+                node->right = temp;
+                // 注意这里以前是node->right, 因为上面已经交换了
+                // 所以这里是node->left
+                node = node->left;
+            }
+        }
+        return root;
     }
 };
-
-
-
-
-
 

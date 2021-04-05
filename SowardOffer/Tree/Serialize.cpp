@@ -21,65 +21,50 @@ struct TreeNode
     TreeNode(int x):val(x),left(NULL),right(NULL){}
 };
 
+
 class Solution {
 public:
-    char* Serialize(TreeNode *root) {
+    string s;
+    int j=0;
+    void Srtial(TreeNode *root)
+    {
         if(root==NULL)
         {
-            char *serial = new char[3];
-            strcpy(serial,"#,");
-            return serial;
+            s+="#!";
+            return ;
         }
-        string str;
-        Serialize(root, str);
-        const char *c_str = str.c_str();
-        char *serial = new char[str.length()+1];
-        strcpy(serial, c_str);
-        return serial;
+        s+=to_string(root->val);
+        s+="!";
+        Srtial(root->left);
+        Srtial(root->right);
+    }
+    char* Serialize(TreeNode *root) {   
+        Srtial(root);
+        return (char *)s.data();
     }
     TreeNode* Deserialize(char *str) {
-        if(str==NULL || *str == '\0')
-        {
-            return 0;
-        }
-        int index=0;
-        return Deserialize(str, index);
-    
+        s=str;
+        return Deserial();
     }
-private:
-    void Serialize(TreeNode *root, string &str)
+    TreeNode* Deserial()
     {
-        if(root==NULL)
-        {
-            str+="#,";
-            return;
+        if(s.size()==0)
+            return NULL;
+        if(s[j]=='!') {
+            j++;
+            if(j>=s.size())
+                return NULL;   
         }
-        /* 先序遍历的方式，序列化二叉树 */
-        str+= (to_string(root->val)+',');
-        Serialize(root->left, str);
-        Serialize(root->right,str);
-    }
-    TreeNode* Deserialize(char *str, int &index)
-    {
-        if(str[index]=='#')
-        {
-            index+=2;
+        if(s[j]=='#'){
+            j++;
             return NULL;
         }
-        /* 获取到节点的数字权值 */
-        int num = 0;
-        while(str[index]!=',' && str[index]!='\0')
-        {
-            num = num*10 + (str[index]-'0');
-            index ++;
-        }
-        index++;
-        TreeNode *root = new TreeNode(num);
-        root->left = Deserialize(str,index);
-        root->right = Deserialize(str,index);
+        int num=0;
+        while(s[j]>='0' && s[j]<='9'){
+        num=num*10+s[j++]-'0';}
+        TreeNode *root=new TreeNode(num);
+        root->left=Deserial();
+        root->right=Deserial();
         return root;
     }
 };
-
-
-
