@@ -48,23 +48,33 @@ public:
     }
     TreeNode* Deserial()
     {
+        
         if(s.size()==0)
             return NULL;
+        
         if(s[j]=='!') {
             j++;
             if(j>=s.size())
-                return NULL;   
+            {
+                return NULL;
+            }
         }
+        
         if(s[j]=='#'){
             j++;
             return NULL;
-        }
+        }   
+        
         int num=0;
+        
         while(s[j]>='0' && s[j]<='9'){
-        num=num*10+s[j++]-'0';}
+            num=num*10+s[j++]-'0';
+        }
+
         TreeNode *root=new TreeNode(num);
         root->left=Deserial();
         root->right=Deserial();
+        
         return root;
     }
 };
