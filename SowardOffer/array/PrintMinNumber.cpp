@@ -11,7 +11,6 @@
 #include <set>
 using namespace std;
 
-
 class Solution {
 public:
     string PrintMinNumber(vector<int> numbers) {
