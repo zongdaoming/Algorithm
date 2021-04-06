@@ -143,3 +143,125 @@ public:
 ### 算法的复杂度分析：
 * 由于使用了一个大小为`k`的堆，空间复杂度为 `O(k)`；
 * 入堆和出堆操作的时间复杂度均为`O(logk)`，每个元素都需要进行一次入堆操作，故算法的时间复杂度为`O(nlogk)`。
+
+
+
+# 归并排序
+
+题目描述：给定一个数组`arr`， 数组元素各不相同，求`arr[i] > arr[j]` 且 `i < j`的个数。
+
+首先还是提出两个问题，带着问题来看题解，我觉得效率更好。
+
+1. Q1：为什么归并排序需要额外的空间？
+2. Q2：为什么此题的最优解法可以借助归并排序的思想？
+
+直观来看，使用暴力统计法即可，即遍历数组的所有数字对并统计逆序对数量。此方法时间复杂度为`O(N^2)` ，观察题目给定的数组长度范围`0≤N≤50000` ，可知此复杂度是不能接受的。
+
+「归并排序」与「逆序对」是息息相关的。归并排序体现了 “分而治之” 的算法思想，具体为：
+
+1. 分： 不断将数组从中点位置划分开（即二分法），将整个数组的排序问题转化为子数组的排序问题；
+2. 治： 划分到子数组长度为 1 时，开始向上合并，不断将 较短排序数组 合并为 较长排序数组，直至合并至原数组时完成排序；
+
+算法流程:
+
+`merge_sort()` 归并排序与逆序对统计：
+
+1. 终止条件： 当 `l≥r` 时，代表子数组长度为 `1` ，此时终止划分；
+
+2. 递归划分： 计算数组中点`m`，递归划分左子数组 `merge_sort(l, m)` 和右子数组 `merge_sort(m + 1, r)` ；
+
+3. 合并与逆序对统计：
+
+* 暂存数组 `nums` 闭区间`[i,r]`内的元素至辅助数组 `tmp` ；
+
+* 循环合并： 设置双指针 i , j 分别指向左 / 右子数组的首元素；
+
+   * 当 `i = m + 1` 时： 代表左子数组已合并完，因此添加右子数组当前元素 `tmp[j]` ，并执行`j=j+1` ；
+
+   * 否则，当 `j=r+1` 时： 代表右子数组已合并完，因此添加左子数组当前元素`tmp[i]`，并执行 `i=i+1`；
+
+   * 否则，当 `tmp[i]≤tmp[j]` 时： 添加左子数组当前元素 `tmp[i]` ，并执行 `i=i+1`；
+
+   * 否则（即`tmp[i]>tmp[j]`）时： 添加右子数组当前元素 `tmp[j]`，并执行 `j=j+1` ；此时构成 `m−i+1` 个「逆序对」，统计添加至`res`；
+
+4. 返回值： 返回直至目前的逆序对总数 `res` ；
+
+```cpp
+class Solution {
+    public:
+    int reversePairs(vector<int> &nums)
+    {
+        vector<int> tmp(nums.size());
+        return mergeSort(0,nums.size()-1, nums, tmp);
+    }
+    private:
+    int mergeSort(int l, int r, vecotor<int> &nums, vector<int> &tmp)
+    {
+        // 终止条件
+        if(l >= r) return 0;
+        // 递归划分
+        int m  =  l + (r-l)/2;
+        int res = mergeSort(l, m, nums, tmp) + mergeSort(m+1, r, nums, tmp);
+        // 合并阶段
+        int i = l; j = m+1;
+
+        for(int k = l; k<= r; k++)
+        {
+            tmp[k] = nums[k];
+        }
+        
+        // 典型的双指针滑动
+        for(int k = l; k<=r; k++)
+        {
+            // 表示左子数组已经合并完了
+            if(i==m+1)
+            {
+                nums[k]= tmp[j++];
+            }
+            // 表示右子数组已经合并玩
+            else if (j=r+1 || tmp[i]<= tmp[j])
+            {
+                nums[k] = tmp[i++];
+            }
+            else
+            {
+                nums[k] = tmp[j++];
+                res += m-i+1; //统计逆序对
+            }
+        
+        }
+        return res;
+    }
+};
+```
+
+
+## 双指针方法
+
+```cpp
+class Solution {
+public:
+    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+      int i = m-1, j = n-1;
+      int tail = m+n-1;
+      int temp; //设立一个临时变量
+      while(i>=0||j>=0)
+      {
+        if(i==-1){
+            // cur= nums2[j];
+            // j--;
+            temp = nums2[j--];
+        }else if(j==-1){
+            // cur = nums1[i];
+            // i--;
+            temp = nums1[i--];
+        }else if(nums1[i]>nums2[j]){
+            temp=nums1[i--];
+        }else{
+            temp = nums2[j--];
+        }
+        nums1[tail--] = temp;
+      }
+}
+};
+```
