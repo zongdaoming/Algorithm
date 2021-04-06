@@ -195,31 +195,30 @@ class Solution {
         return mergeSort(0,nums.size()-1, nums, tmp);
     }
     private:
-    int mergeSort(int l, int r, vecotor<int> &nums, vector<int> &tmp)
+    int mergeSort(int l, int r, vector<int> &nums, vector<int> &tmp)
     {
         // 终止条件
         if(l >= r) return 0;
         // 递归划分
-        int m  =  l + (r-l)/2;
+        int m = l + (r-l)/2;
         int res = mergeSort(l, m, nums, tmp) + mergeSort(m+1, r, nums, tmp);
         // 合并阶段
-        int i = l; j = m+1;
+        int i = l, j = m+1;
 
         for(int k = l; k<= r; k++)
         {
             tmp[k] = nums[k];
         }
-        
         // 典型的双指针滑动
         for(int k = l; k<=r; k++)
         {
             // 表示左子数组已经合并完了
-            if(i==m+1)
+            if(i==(m+1))
             {
-                nums[k]= tmp[j++];
+                nums[k] = tmp[j++];
             }
-            // 表示右子数组已经合并玩
-            else if (j=r+1 || tmp[i]<= tmp[j])
+            // 表示右子数组已经合并完了
+            else if (j == (r+1) || tmp[i] <= tmp[j])
             {
                 nums[k] = tmp[i++];
             }
@@ -263,5 +262,58 @@ public:
         nums1[tail--] = temp;
       }
 }
+};
+```
+
+## 数组中的逆序对
+在数组中的两个数字，如果前面一个数字大于后面的数字，则这两个数字组成一个逆序对。输入一个数组,求出这个数组中的逆序对的总数`P`。并将P对`1000000007`取模的结果输出。 即输出`P%1000000007`
+
+```cpp
+class Solution {
+public:
+    long long int mod = 1000000007;
+    int InversePairs(vector<int> data) {
+        int length = data.size();
+        vector<int> tmp(length);
+        long int res = mergeSort(0,length-1,data,tmp);
+        return res%mod;
+    }
+private:
+    long int mergeSort(int l, int r, vector<int> &nums, vector<int> &tmp)
+    {
+        // 终止条件
+        if(l >= r) return 0;
+        // 递归划分
+        int m = l + (r-l)/2;
+        long int res = mergeSort(l, m, nums, tmp) + mergeSort(m+1, r, nums, tmp);
+        // 合并阶段
+        int i = l, j = m+1;
+
+        for(int k = l; k<= r; k++)
+        {
+            tmp[k] = nums[k];
+        }
+        // 典型的双指针滑动
+        for(int k = l; k<=r; k++)
+        {
+            // 表示左子数组已经合并完了
+            if(i==(m+1))
+            {
+                nums[k] = tmp[j++];
+            }
+            // 表示右子数组已经合并完了
+            else if (j == (r+1) || tmp[i] <= tmp[j])
+            {
+                nums[k] = tmp[i++];
+            }
+            else
+            {
+                nums[k] = tmp[j++];
+                res += m-i+1; //统计逆序对
+            }
+        
+        }
+        return res;
+    }
 };
 ```
