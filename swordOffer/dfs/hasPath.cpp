@@ -12,7 +12,9 @@
 using namespace std;
 
 
+
 class Solution {
+
 public:
   vector<int> dirt = {1, 0, -1, 0, 1}; 
   bool hasPath(vector<vector<char> >& matrix, string word) {
@@ -42,37 +44,3 @@ public:
       return isExist;
   }
 };
-
-class Solution
-{
-    public:
-    vector<int> dirt = {1, 0, -1, 0, 1}; 
-    bool dfs(vector<vector<char> >& matrix, int lnow, string &word, vector<vector<bool> >& visited, int i, int j)
-    {
-        if(lnow==word.length())
-        {
-            return true;
-        }
-        
-
-
-    }
-    bool hasPath(vector<vector<char> >& matrix, string word) {
-    vector<vector<bool>> visited(matrix.size(),vector<bool>(matrix[0].size(),0));
-    int rows = matrix.size();
-    int cols = matrix[0].size();
-    for(int i = 0; i<rows; i++){
-        for(int j = 0; j<cols; j++)
-        {
-            dfs(matrix,0, word, visited, i,j);
-        }
-    }
-
-
-    }
- 
-
-    }
-
-
-}
