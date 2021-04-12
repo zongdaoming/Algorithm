@@ -64,13 +64,15 @@ public:
         while(!st.empty() || curr!=NULL ) {
             if(curr != nullptr)
             {
-                
+                ret.push_back(curr->val);
+                st.push(curr);
+                curr = curr->left;
+            }else{
+                curr = st.top();
+                st.pop();
+                curr = curr->left;
             }
-
-
-
         }
-
     }
 };
 

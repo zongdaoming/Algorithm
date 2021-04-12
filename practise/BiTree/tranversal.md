@@ -28,3 +28,36 @@ class Solution {
 };
 ```
 
+算法2
+
+1. 辅助变量 curr 初始化为根节点
+2. 当 curr != null 时，就保存这个节点值到 list 中，然后将其入栈并置 curr 为它自己的左子节点
+3. 当 curr == null 时，说明已经遍历到二叉树的左下节点了，这时前序遍历应该遍历右子树了，首先 pop 出已经遍历保存过的父节点，然后置 curr 为 pop 出的父节点的右子节点
+
+
+```cpp
+class Solution{
+    public:
+    vector<int> preOrderTranversal(TreeNode *root)
+    {
+       stack<TreeNode*> st;
+       TreeNode curr = root;
+       vector<int> ret;
+       while(!st.empty() || curr!=NULL)
+       {
+           if(curr!=NULL)
+           {
+               ret.push_back(curr->val);
+               st.push(curr);
+               curr = curr->left;
+           }
+           else{
+               curr = st.top();
+               st.pop();
+               curr = curr->right;
+           }
+       }
+    }
+}
+```
+
