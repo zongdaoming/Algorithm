@@ -34,7 +34,6 @@ class Solution {
 2. 当 curr != null 时，就保存这个节点值到 list 中，然后将其入栈并置 curr 为它自己的左子节点
 3. 当 curr == null 时，说明已经遍历到二叉树的左下节点了，这时前序遍历应该遍历右子树了，首先 pop 出已经遍历保存过的父节点，然后置 curr 为 pop 出的父节点的右子节点
 
-
 ```cpp
 class Solution{
     public:
@@ -60,4 +59,44 @@ class Solution{
     }
 }
 ```
+
+算法3
+
+和算法2的区别：
+
+父节点遍历到之后直接保存下来不再入栈，**随后入栈其右子节点**，**这样出栈的时候也不必再置为其右子节点**。
+
+
+```cpp
+class Solution{
+    public:
+    vector<int> preOrderTranversal(TreeNode *root)
+    {
+        stack<TreeNode*> st;
+        TreeNode *curr = root;
+        vector<int> ret;
+        while(!st.empty() || curr!=NULL)
+        {
+            if(curr!=NULL)
+            {
+                ret.push_back(curr->val);
+                if(curr->right != NULL)
+                {
+                    st.push(curr->right);
+                }
+                curr = curr->left;
+            }else
+            {
+                curr = st.top();
+                st.pop();
+            }
+        }
+    }
+}
+```
+
+
+
+
+
 
