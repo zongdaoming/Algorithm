@@ -46,10 +46,3 @@ public:
         return dp.back().back();
     }
 };
-
-
-int main(int argc, char const *argv[])
-{
-    
-    return 0;
-}
