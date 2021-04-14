@@ -64,29 +64,47 @@ public:
 3. 如果`right-left>2`，我们只需要判断`dp[left+1][right-1]`是否是回文子串，才能确定`dp[left][right]`是否为true还是false。即`dp[left][right]=dp[left+1][right-1]`
 
 有了递推公式和边界条件，代码就很容易写了，来看下
+
 ```cpp
 class Solution {
 public:
-    int getLongestPalindrome(string str, int n) {
-        if(n<2)
+    int getLongestPalindrome(string s, int n) {
+        int len = s.size();
+        if(len<2)
         {
-            return str.size()
+            return s.length();
         }
+        vector<vector<bool>> dp(n,vector<bool>(n,false));
         int maxLen = 1;
-        vector<vector<int>> dp(n,vector<int>(n,false));
-        for(int right =1,  right< n; )
-
-
-
-
-
-        
-        
+        for(int right = 1; right<len; right++){ 
+            for(int left = 0; left<right; left++){                           
+                if(s[left]!=s[right])
+                {
+                    continue;
+                }
+                //如果只有一个字符，肯定是回文子串
+                if(left==right)
+                {
+                    dp[left][right] = true;
+                //类似于"aa"和"aba"，也是回文子串
+                }else if(right-left<=2)
+                {
+                    dp[left][right] = true;
+                }else{
+                //类似于"a******a"，要判断他是否是回文子串，只需要
+                //判断"******"是否是回文子串即可                    
+                    dp[left][right]=dp[left+1][right-1];
+                }
+                //如果字符串从left到right是回文子串，只需要保存最长的即可                
+                if(dp[left][right] && right-left+1 >maxLen)
+                {
+                    maxLen = right-left + 1;    
+                }
+            }
+        }
+        return maxLen;
     }
 };
-
-
-
-
 ```
+
 

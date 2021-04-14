@@ -52,7 +52,7 @@ class Solution
         int i = l; j =r;
         while(i<j)
         {
-            while(i<j  && arr[j]>=arr[l] ) j--;
+            while(i<j  && arr[j]>=arr[l]) j--;
             while(i<j  && arr[i]<=arr[l]) i++;
             swap(arr[i],arr[j]);
         }

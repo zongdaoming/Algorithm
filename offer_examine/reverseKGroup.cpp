@@ -26,7 +26,14 @@ public:
      * @return ListNode类
      */
     ListNode* reverseKGroup(ListNode* head, int k) {
-        
+        if(!head) return head;
+        ListNode *pre = new ListNode(-1);
+        ListNode *cur = head;
+        while(cur->next!=NULL)
+        {
+            
+        }
+     
 
         
     }
