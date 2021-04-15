@@ -125,7 +125,7 @@ public:
 
 
 class Solution {
-private:
+    private:
     int last;
 public:
     /**
