@@ -73,3 +73,50 @@ public:
         return dp[n - 1][target];
     }
 };
+
+
+class Solution {
+public:
+    bool canPartition(vector<int>& nums) {
+        int n  = nums.size();
+        int sum = accumulate(nums.begin(), nums.end(), 0);
+        cout<<"Sum is "<<sum<<endl;
+        int maxElem = *max_element(nums.begin(),nums.end());
+        cout<<"Max ELem "<<maxElem<<endl;
+        if(sum & 1){
+            return false;
+        }
+        // if(sum & 1){
+        //     return false;
+        // }
+        int target = sum/2;
+        if(maxElem>target){
+            return false;
+        }
+        // define a dp
+        vector<vector<bool>> dp(n, vector<bool>(target+1, false));
+        // initialization
+        // [0,i]个物品中和存不存在和为j 【0-1背包】
+
+        for(int i = 0; i< n; i++)
+        {
+            dp[i][0]=true;
+        } 
+        dp[0][nums[0]] = true;
+        for(int i=1; i<n; ++i)
+        {
+            for(int j=1; j<=target; ++j)
+            {
+                if(j>=nums[i])
+                {
+                    dp[i][j] = dp[i-1][j] || dp[i-1][j-nums[i]];
+                }
+                else
+                {
+                    dp[i][j] = dp[i-1][j];
+                }
+            }
+        }
+        return dp[n-1][target];
+    }
+};
