@@ -1,5 +1,24 @@
- # 一和零【01背包】详解
+ # Leetcode 474. 一和零【01背包】详解
 
+```shell
+给你一个二进制字符串数组 strs 和两个整数 m 和 n 。
+
+请你找出并返回 strs 的最大子集的大小，该子集中 最多 有 m 个 0 和 n 个 1 。
+
+如果 x 的所有元素也是 y 的元素，集合 x 是集合 y 的 子集 。
+
+示例 1：
+
+输入：strs = ["10", "0001", "111001", "1", "0"], m = 5, n = 3
+输出：4
+解释：最多有 5 个 0 和 3 个 1 的最大子集是 {"10","0001","1","0"} ，因此答案是 4 。
+其他满足题意但较小的子集包括 {"0001","1"} 和 {"10","1","0"} 。{"111001"} 不满足题意，因为它含 4 个 1 ，大于 n 的值 3 。
+示例 2：
+
+输入：strs = ["10", "0", "1"], m = 1, n = 1
+输出：2
+解释：最大的子集是 {"0", "1"} ，所以答案是 2 
+```
 
  这道题目，还是比较难的，也有点像程序员自己给自己出个脑筋急转弯，程序员何苦为难程序员呢哈哈。
 
@@ -20,11 +39,12 @@
 
 这不过这个背包有两个维度，一个是`m` 一个是`n`，而不同长度的字符串就是不同大小的待装物品。
 
-开始**动规五部曲**：
+开始**动规四步曲**：
+
 
 * 1.确定dp数组（dp table）以及下标的含义
 
-**`dp[i][j]`：最多有`i`个0和`j`个1的strs的最大子集的大小为`dp[i][j]`**
+**`dp[i][j]`：最多有`i`个0和`j`个1的strs的`最大子集`的大小为`dp[i][j]`**
 
 * 2.确定递推公式
 
@@ -45,26 +65,33 @@ dp[i][j] 就可以是 dp[i - zeroNum][j - oneNum] + 1。
 因为物品价值不会是负数，初始为0，保证递推的时候dp[i][j]不会被初始值覆盖。
 
 * 4.确定遍历顺序
-`01背包`为什么一定是外层for循环遍历**物品**，内层for循环遍历**背包容量**且**从后向前遍历**！
+* 
+`01背包` **空间压缩时** 是外层for循环遍历**物品**，内层for循环遍历**背包容量**且**从后向前遍历**！
 ```cpp
+class Solution {
 class Solution {
 public:
     int findMaxForm(vector<string>& strs, int m, int n) {
-        vector<vector<int>> dp(m+1, vector<int>(n+1, 0));
+        vector<vector<int>> dp(m+1, vector<int>(n+1,0));
         dp[0][0] = 0;
-        for (string str : strs) { // 遍历物品
-        int oneNum = 0, zeroNum = 0;
-        for (char c : str) {
-        if (c == '0') zeroNum++;
-            else oneNum++;
-        }
-        for (int i = m; i >= zeroNum; i--) { // 遍历背包容量且从后向前遍历！
-            for (int j = n; j >= oneNum; j--) {
-                dp[i][j] = max(dp[i][j], dp[i - zeroNum][j - oneNum] + 1);
+        for(string &str: strs)
+        {
+            int onenum =0, zeronum = 0;
+            for(char &c: str)
+            {
+                if (c=='1') ++onenum;
+                else ++zeronum;
+            }
+            for(int i = m; i>=zeronum; --i)
+            {
+                for(int j = n; j>=onenum; --j)
+                {
+                    dp[i][j] = max(dp[i][j], dp[i-zeronum][j-onenum]+1);
                 }
             }
         }
         return dp[m][n];
+
     }
 };
 ```
