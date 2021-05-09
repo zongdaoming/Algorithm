@@ -11,14 +11,13 @@
 #include <set>
 using namespace std;
 
-
 class Solution{
     public:
     int minSteps(int n)
     {
         vector<int> dp(n+1);
         // initialization 
-        int h = sqrt(n);
+        int h = n/2;
         for(int i = 2; i<=n; ++i)
         {
             dp[i] = i;
@@ -26,6 +25,7 @@ class Solution{
             {
                 if(i % j == 0)
                 {
+                    // view as a whole
                     dp[i] = dp[j] + dp[i/j];
                     break;
                 }
@@ -40,7 +40,7 @@ int main(int argc, char const *argv[])
 {
     Solution sol;
     int n = 4;
-    int ans = minSteps(n);
+    int ans = sol.minSteps(n);
     system("pause");
     return 0;
 }
